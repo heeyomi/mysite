@@ -12,7 +12,7 @@
 		<div id="wrapper">
 			<div id="content">
 				<div id="site-introduction">
-					<img id="profile" src="<%= request.getContextPath()%>/assets/images/profile.png">
+					<img id="profile" src="<%= request.getContextPath()%>/assets/images/profile.PNG" width="100px">
 					<h2>안녕하세요. 유니경의  mysite에 오신 것을 환영합니다.</h2>
 					<p>
 						이 사이트는 웹 프로그래밍 실습과제 예제 사이트입니다.<br>
