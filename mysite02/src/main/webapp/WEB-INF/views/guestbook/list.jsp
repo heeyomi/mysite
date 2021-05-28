@@ -1,27 +1,22 @@
-<%@page import="java.text.SimpleDateFormat"%>
-<%@page import="com.douzone.mysite.repository.GuestbookRepository"%>
-<%@page import="com.douzone.mysite.vo.GuestbookVo"%>
-<%@page import="java.util.List"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>  
+<% pageContext.setAttribute("newline", "\r\n"); %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%
-	SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-	List<GuestbookVo> list = new GuestbookRepository().find();
-	int count = list.size();
- %>
 <!DOCTYPE html>
 <html>
 <head>
 <title>mysite</title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
-<link href="<%=request.getContextPath() %>/assets/css/guestbook.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath }/assets/css/guestbook.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 	<div id="container">
-		<jsp:include page="/WEB-INF/views/includes/header.jsp" />
+		<c:import url="/WEB-INF/views/includes/header.jsp" />
 		<div id="content">
 			<div id="guestbook">
-				<form action="<%=request.getContextPath() %>/guestbook" method="post">
+				<form action="${pageContext.request.contextPath }/guestbook" method="post">
 					<input type="hidden" name="a" value="add">
 					<table>
 						<tr>
@@ -38,32 +33,30 @@
 				</form>
 				<ul>
 					<li>
-					
-					<% for(GuestbookVo vo : list) { 
-						count--;
-						String content = vo.getMessage().replace("\r\n", "<br>");
-					%>
+					<c:set var="count" value="${fn:length(vo) }"/>
 						<table>
-							<tr>
-								<td><%= count+1 %></td>
-								<td><%= vo.getName() %></td>
-								<td><%= df.format(vo.getRegDate()) %></td>
-								<td><a href="<%=request.getContextPath()%>/guestbook?a=deleteFormAction&no=<%=vo.getNo() %>">삭제</a></td>
-							</tr>
-							<tr>
-								<td colspan=4>
-								<%=content %>	
+							<c:forEach items="${vo }" var="vo" varStatus="status">
+								<tr>	
+									<td>[${count-status.index }] </td>
+									<td>${vo.name }</td>
+									<td>${vo.regDate }</td>
+									<td><a href="${pageContext.request.contextPath }/guestbook?a=deleteFormAction&no=${vo.no }">삭제</a></td>
+								</tr>
+								
+								<tr>
+									<td colspan=4>
+									${fn:replace(vo.message, newline, "<br/>") }
 								</td>
-							</tr>
+								</tr>
+							</c:forEach>
 						</table>
 						<br>
-						<%} %>
 					</li>
 				</ul>
 			</div>
 		</div>
-		<jsp:include page="/WEB-INF/views/includes/navigation.jsp"/>
-		<jsp:include page="/WEB-INF/views/includes/footer.jsp"/>
+		<c:import url="/WEB-INF/views/includes/navigation.jsp"/>
+		<c:import url="/WEB-INF/views/includes/footer.jsp"/>
 	</div>
 </body>
 </html>

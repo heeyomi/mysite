@@ -13,6 +13,9 @@ public class DeleteFormAction implements Action {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		Long no = Long.parseLong(request.getParameter("no"));
+		
+		request.setAttribute("no", no);
 		MvcUtils.forward("guestbook/deleteform", request, response);
 	}
 
