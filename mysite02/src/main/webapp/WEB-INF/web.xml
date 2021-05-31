@@ -10,6 +10,11 @@
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
   
+  <!-- 세션유지 -->
+  <session-config>
+  	<session-timeout>30</session-timeout>
+  </session-config>
+  
   <context-param>
     <param-name>contextConfigLocation</param-name>
     <param-value>/WEB-INF/applicationContext.xml</param-value>

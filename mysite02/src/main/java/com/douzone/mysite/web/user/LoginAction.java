@@ -27,6 +27,8 @@ public class LoginAction implements Action {
 			return;
 		}
 		
+		vo.setNo(vo.getNo());
+		vo.setName(vo.getName());
 		
 		// 인증처리(session 처리)
 		HttpSession session =  request.getSession(true);

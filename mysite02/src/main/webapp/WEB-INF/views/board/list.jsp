@@ -26,33 +26,23 @@
 						<th>조회수</th>
 						<th>작성일</th>
 						<th>&nbsp;</th>
-					</tr>				
-					<tr>
-						<td>3</td>
-						<td style="text-align:left; padding-left:0px"><a href="">세 번째 글입니다.</a></td>
-						<td>안대혁</td>
-						<td>3</td>
-						<td>2015-10-11 12:04:20</td>
-						<td><a href="" class="del">삭제</a></td>
 					</tr>
-					<tr>
-						<td>2</td>
-						<td style="text-align:left; padding-left:20px"> <img src='${pageContext.request.contextPath }/assets/images/reply.png' /><a href="">두 번째 글입니다.</a></td>
-						<td>안대혁</td>
-						<td>3</td>
-						<td>2015-10-02 12:04:12</td>
-						<td><a href="" class="del">삭제</a></td>
-					</tr>
-					<tr>
-						<td>1</td>
-						<td style="text-align:left; padding-left:40px"> <img src='${pageContext.request.contextPath }/assets/images/reply.png' /><a href="">첫 번째 글입니다.</a></td>
-						<td>안대혁</td>
-						<td>3</td>
-						<td>2015-09-25 07:24:32</td>
-						<td><a href="" class="del">삭제</a></td>
-					</tr>
+					<c:set var="count" value="${fn:length(vo) }"/>				
+					<c:forEach items="${vo }" var="vo" varStatus="status">
+						<tr>
+						<td>${count-status.index } </td>
+						<td style="text-align:left; padding-left:0px"><a href="${pageContext.request.contextPath }/board?a=view&no=${vo.no }">${vo.title }</a></td>
+						<td>${vo.userName }</td>
+						<td>${vo.hit }</td>
+						<td>${vo.regDate }</td>
+						<c:if test="${authUser.no == vo.userNo }">
+							<td><a href="${pageContext.request.contextPath }/board?a=delete&no=${vo.no}" class="del">삭제</a></td>
+						</c:if>
+						</tr>
+								
+					</c:forEach>
+					
 				</table>
-				
 				<!-- pager 추가 -->
 				<div class="pager">
 					<ul>
@@ -67,9 +57,15 @@
 				</div>					
 				<!-- pager 추가 -->
 				
+			<c:choose>
+				<c:when test="${!empty authUser }">
 				<div class="bottom">
-					<a href="" id="new-book">글쓰기</a>
+					<a href="${pageContext.request.contextPath }/board?a=writeForm" id="new-book">글쓰기</a>
 				</div>				
+				</c:when>
+			</c:choose>
+			
+			
 			</div>
 		</div>
 		<c:import url="/WEB-INF/views/includes/navigation.jsp">
