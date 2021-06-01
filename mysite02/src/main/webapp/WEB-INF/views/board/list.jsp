@@ -28,10 +28,20 @@
 						<th>&nbsp;</th>
 					</tr>
 					<c:set var="count" value="${fn:length(vo) }"/>				
-					<c:forEach items="${vo }" var="vo" varStatus="status">
+					<c:forEach begin="0" end="5" items="${vo }" var="vo" varStatus="status">
 						<tr>
 						<td>${count-status.index } </td>
-						<td style="text-align:left; padding-left:0px"><a href="${pageContext.request.contextPath }/board?a=view&no=${vo.no }">${vo.title }</a></td>
+						<td style="text-align:left; padding-left:${vo.depth}px">
+						<c:choose>
+							<c:when test="${vo.depth eq 0 }">
+								<a href="${pageContext.request.contextPath }/board?a=view&no=${vo.no }">${vo.title }</a>
+							</c:when>
+							<c:otherwise>
+							 <img src='${pageContext.request.contextPath }/assets/images/reply.png' /><a href="${pageContext.request.contextPath }/board?a=view&no=${vo.no }">${vo.title }</a>
+							</c:otherwise>
+						</c:choose>
+						</td>
+						
 						<td>${vo.userName }</td>
 						<td>${vo.hit }</td>
 						<td>${vo.regDate }</td>
@@ -46,17 +56,32 @@
 				<!-- pager 추가 -->
 				<div class="pager">
 					<ul>
-						<li><a href="">◀</a></li>
-						<li><a href="/mysite02/board?p=1">1</a></li>
-						<li class="selected">2</li>
-						<li><a href="/mysite02/board?p=3">3</a></li>
-						<li>4</li>
-						<li>5</li>
-						<li><a href="">▶</a></li>
+					<c:if test="${pages.currentPage!=1 }">
+						<li><a href="/mysite02/board?p=${pages.currentPage-1 }">◀</a></li>
+						<li><a href="/mysite02/board?p=${pages.currentPage=1 }">◀◀</a></li>
+					</c:if>
+					<c:forEach var ="page" begin="${pages.startPage }" end="${pages.lastPage }">
+							<c:if test="${page==pages.currentPage}">
+								<li class="selected">${page }</li>
+								<c:out value="${page }"></c:out>
+								<c:out value="${pages.currentPage }"></c:out>
+							</c:if>
+							
+							<c:if test="${page <= pages.totalPage && page ne pages.currentPage }">
+								<li><a href="/mysite02/board?p=${page}">${page }</a></li>
+							</c:if>
+							
+							<c:if
+								test="${page>pages.totalPage && pages.totalPage<pages.lastPage }">${page } </c:if>
+					</c:forEach>
+					
+					<c:if test="${pages.currentPage <pages.totalPage }">
+						<li><a href="/mysite02/board?p=${pages.currentPage+1 }">▶</a></li>
+						<li><a href="/mysite02/board?p=${pages.totalPage }">▶▶</a></li>
+					</c:if>
 					</ul>
-				</div>					
-				<!-- pager 추가 -->
-				
+				</div>
+							
 			<c:choose>
 				<c:when test="${!empty authUser }">
 				<div class="bottom">
@@ -64,7 +89,6 @@
 				</div>				
 				</c:when>
 			</c:choose>
-			
 			
 			</div>
 		</div>

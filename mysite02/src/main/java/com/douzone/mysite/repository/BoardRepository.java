@@ -359,7 +359,7 @@ public class BoardRepository {
 		return result;
 	}
 
-	public List<BoardVo> paging(int firstPage) {
+	public List<BoardVo> paging(int page) {
 		List<BoardVo> result = new ArrayList<>();
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -369,7 +369,7 @@ public class BoardRepository {
 			conn = getConnection();
 			String sql = "select a.no, a.title, a.contents, a.reg_date, a.hit, a.group_no, a.order_no, a.depth, a.user_no, b.name from board a, user b where a.user_no = b.no order by group_no desc, order_no asc limit ?, 5";
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, firstPage);
+			pstmt.setInt(1, (page-1) * 5);
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
