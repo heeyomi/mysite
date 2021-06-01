@@ -104,4 +104,91 @@ public class UserRepository {
 		
 	}
 	
+	public boolean update(String name, String pw, Long no) {
+		boolean result = false;
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			conn = getConnection();
+			String sql = "update user set name=?, password=? where no =? ";
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, name);
+			pstmt.setString(2, pw);
+			pstmt.setLong(3, no);
+			
+			int count = pstmt.executeUpdate();
+			result = count == 1;
+			
+		} catch (Exception e) {
+			System.out.println("error:" + e);
+		} finally {
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return result;
+	}
+
+	public UserVo findByNo(Long userNo) {
+		UserVo result = null;
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+			conn = getConnection();
+			String sql = "select * from user where no = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setLong(1, userNo);
+			
+			rs = pstmt.executeQuery();
+			
+			if (rs.next()) {
+				Long no = rs.getLong(1);
+				String name = rs.getString(2);
+				String email = rs.getString(3);
+				String password = rs.getString(4);
+				String gender = rs.getString(5);
+				
+				result = new UserVo();
+				result.setNo(no);
+				result.setName(name);
+				result.setPassword(password);
+				result.setEmail(email);
+				result.setGender(gender);
+				
+			}
+			
+		} catch (Exception e) {
+			System.out.println("error:" + e);
+		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return result;
+	}
+	
 }
