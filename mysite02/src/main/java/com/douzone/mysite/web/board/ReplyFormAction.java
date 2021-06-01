@@ -20,13 +20,13 @@ public class ReplyFormAction implements Action {
 		HttpSession session =  request.getSession(true);
 		UserVo userVo = (UserVo) session.getAttribute("authUser");
 		if (userVo == null) {
+			MvcUtils.redirect(request.getContextPath()+"/board", request, response);
 			return;
 		}
-		System.out.println("replyFrom");
 		Long no = Long.parseLong(request.getParameter("no"));
-		System.out.println(no+"!!!");
 		
-		BoardVo vo = new BoardRepository().findByNo(no);
+		BoardVo boardVo = new BoardRepository().findByNo(no);
+		request.setAttribute("boardVo", boardVo);
 		
 		
 		MvcUtils.forward("board/reply", request, response);

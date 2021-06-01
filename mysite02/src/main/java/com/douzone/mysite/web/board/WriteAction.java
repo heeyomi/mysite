@@ -36,14 +36,14 @@ public class WriteAction implements Action {
 		vo.setTitle(title);
 		vo.setContents(content);
 		vo.setHit(0);
-		vo.setGroupNo(0);
-		vo.setOrderNo(0);
+		vo.setGroupNo(1);
+		vo.setOrderNo(1);
 		vo.setDepth(0);
 		vo.setUserNo(userVo.getNo());
 		vo.setUserName(userVo.getName());
 		vo.setRegDate(sdf.format(date));
 		
-		new BoardRepository().newInsert(vo);
+		new BoardRepository().insert(vo);
 		
 		MvcUtils.redirect(request.getContextPath()+"/board", request, response);
 	}

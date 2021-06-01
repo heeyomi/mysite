@@ -16,6 +16,11 @@
 			<div id="board">
 				<form class="board-form" method="post" action="${pageContext.request.contextPath }/board">
 					<input type = "hidden" name = "a" value="reply">
+					<input type="hidden" name="pageNum" value="${pageNum }">
+					<input type="text" name="groupNo" value="${boardVo.groupNo }">
+					<input type="text" name="orderNo" value="${boardVo.orderNo }">
+					<input type="text" name="depth" value="${boardVo.depth }">
+					
 					<table class="tbl-ex">
 						<tr>
 							<th colspan="2">글쓰기</th>
