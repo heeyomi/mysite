@@ -30,7 +30,12 @@
 					<c:set var="count" value="${fn:length(vo) }"/>				
 					<c:forEach begin="0" end="5" items="${vo }" var="vo" varStatus="status">
 						<tr>
-						<td>${count-status.index } </td>
+						<c:if test="${count <5}">
+							<td>${count-status.index } </td>
+						</c:if>
+						<c:if test="${count==5 }">
+							<td>${totalBoard - (pages.currentPage-1)*5-status.index }</td>
+						</c:if>
 						<td style="text-align:left; padding-left:${vo.depth}px">
 						<c:choose>
 							<c:when test="${vo.depth eq 0 }">
@@ -57,14 +62,12 @@
 				<div class="pager">
 					<ul>
 					<c:if test="${pages.currentPage!=1 }">
-						<li><a href="/mysite02/board?p=${pages.currentPage-1 }">◀</a></li>
-						<li><a href="/mysite02/board?p=${pages.currentPage=1 }">◀◀</a></li>
+						<li><a href="/mysite02/board?p=${pages.prevPage }">◀</a></li>
+						<li><a href="/mysite02/board?p=${1 }">◀◀</a></li>
 					</c:if>
-					<c:forEach var ="page" begin="${pages.startPage }" end="${pages.lastPage }">
+					<c:forEach var ="page" begin="${pages.startPage }" end="${pages.lastPage }" >
 							<c:if test="${page==pages.currentPage}">
 								<li class="selected">${page }</li>
-								<c:out value="${page }"></c:out>
-								<c:out value="${pages.currentPage }"></c:out>
 							</c:if>
 							
 							<c:if test="${page <= pages.totalPage && page ne pages.currentPage }">
@@ -76,7 +79,7 @@
 					</c:forEach>
 					
 					<c:if test="${pages.currentPage <pages.totalPage }">
-						<li><a href="/mysite02/board?p=${pages.currentPage+1 }">▶</a></li>
+						<li><a href="/mysite02/board?p=${pages.nextPage }">▶</a></li>
 						<li><a href="/mysite02/board?p=${pages.totalPage }">▶▶</a></li>
 					</c:if>
 					</ul>
