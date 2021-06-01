@@ -20,6 +20,9 @@ public class IndexAction implements Action {
 		
 		request.setAttribute("vo", vo);
 		
+		for (GuestbookVo guestbookVo : vo) {
+			guestbookVo.setRegDate(guestbookVo.getRegDate().substring(0, 16));
+		}
 		MvcUtils.forward("guestbook/list", request, response);
 	}
 

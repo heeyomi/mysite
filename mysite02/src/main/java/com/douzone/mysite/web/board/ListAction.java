@@ -1,9 +1,7 @@
 package com.douzone.mysite.web.board;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -75,7 +73,6 @@ public class ListAction implements Action {
 			boardVo.setRegDate(boardVo.getRegDate().substring(0, 16));
 			boardVo.setDepth(boardVo.getDepth()*20);
 		}
-		System.out.println(totalBoard);
 
 		HttpSession session = request.getSession(true);
 		UserVo userVo = (UserVo) session.getAttribute("authUser");

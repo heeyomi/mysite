@@ -20,6 +20,7 @@ public class ModifyAction implements Action {
 		UserVo userVo = (UserVo) session.getAttribute("authUser");
 		if (userVo != null) {
 			session.setAttribute("authUser", userVo);
+			
 		}
 		
 		String newTitle = request.getParameter("title");
@@ -27,7 +28,6 @@ public class ModifyAction implements Action {
 		Long no = Long.parseLong(request.getParameter("no"));
 		
 		new BoardRepository().updateBoard(newTitle, newContents, no);
-		System.out.println(no);
 		
 		MvcUtils.redirect(request.getContextPath()+"/board", request, response);
 	}

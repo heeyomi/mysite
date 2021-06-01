@@ -22,7 +22,7 @@ public class ReplyAction implements Action {
 		HttpSession session =  request.getSession(true);
 		UserVo userVo = (UserVo) session.getAttribute("authUser");
 		if (userVo == null) {
-			MvcUtils.redirect(request.getContextPath(), request, response);
+			MvcUtils.redirect(request.getContextPath()+"/board", request, response);
 			return;
 		}
 		
