@@ -10,13 +10,6 @@
 	</properties>
 	
 	<dependencies>
-	<!-- https://mvnrepository.com/artifact/jstl/jstl -->
-<dependency>
-    <groupId>jstl</groupId>
-    <artifactId>jstl</artifactId>
-    <version>1.2</version>
-</dependency>
-	
 		<!-- Servlet -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
@@ -59,6 +52,15 @@
 					<target>1.8</target>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>3.2.1</version>
+				<configuration>
+					<warSourceDirectory>src/main/webapp</warSourceDirectory>
+					<failOnMissingWebXml>true</failOnMissingWebXml>
+				</configuration>
+			</plugin>	
 		</plugins>
 	</build>
   <modules>

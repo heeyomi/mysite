@@ -16,7 +16,6 @@
 			<div id="board">
 				<form class="board-form" method="post" action="${pageContext.request.contextPath }/board">
 					<input type = "hidden" name = "a" value="reply">
-					<input type="hidden" name="pageNum" value="${pageNum }">
 					<input type="hidden" name="groupNo" value="${boardVo.groupNo }">
 					<input type="hidden" name="orderNo" value="${boardVo.orderNo }">
 					<input type="hidden" name="depth" value="${boardVo.depth }">

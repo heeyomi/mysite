@@ -28,32 +28,20 @@ public class ListAction implements Action {
 		HashMap<String, Integer> pages = new HashMap<String, Integer>();
 		int currentPage = Integer.parseInt(pageNum);
 
-		int numPageGroup = (int) Math.ceil((double)currentPage/5);
-
-		int startPage = limit*(numPageGroup-1)+1;
+		int startPage = limit*((int) Math.ceil((double)currentPage/5)-1)+1;
 		if (startPage < 1) {
 			startPage = 1;
 		}
 		
 		int totalPage = (new BoardRepository().countBoard()% limit) == 0? new BoardRepository().countBoard()/limit : new BoardRepository().countBoard()/limit+1;
 		
-		int lastPage = startPage + (limit-1);
-		if (lastPage > totalPage) {
-			lastPage = totalPage;
-		}
+		int lastPage = startPage + (limit-1) > totalPage ? totalPage : startPage + (limit-1);
 		
-		int prevPage = currentPage - 1;
-		if (prevPage < 0) {
-			prevPage = 1;
-		}
+		int prevPage = currentPage-1 < 0 ? 1 : currentPage-1;
 		
-		int nextPage = currentPage + 1;
-		if (nextPage > totalPage) {
-			nextPage = totalPage;
-		}
+		int nextPage = currentPage + 1 > totalPage ? totalPage : currentPage+1;
 		
 		pages.put("currentPage", currentPage);
-		pages.put("numPageGroup", numPageGroup);
 		pages.put("startPage", startPage);
 		pages.put("totalPage", totalPage);
 		pages.put("lastPage", lastPage);
@@ -62,7 +50,6 @@ public class ListAction implements Action {
 		
 		int totalBoard = new BoardRepository().countBoard();
 		request.setAttribute("totalBoard", totalBoard);
-		
 		
 		List<BoardVo> vo = new BoardRepository().paging(currentPage);
 		
