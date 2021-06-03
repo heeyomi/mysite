@@ -8,7 +8,7 @@
 			<ul>
 			<c:choose>
 				<c:when test="${empty authUser }">
-				<li><a href="${pageContext.request.contextPath }/user?a=loginform">로그인</a><li>
+				<li><a href="${pageContext.request.contextPath }/user/login">로그인</a><li>
 				<li><a href="${pageContext.request.contextPath }/user?a=joinform">회원가입</a><li>
 				</c:when>
 				

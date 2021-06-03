@@ -135,6 +135,58 @@ public class GuestbookRepository {
 		
 	}
 	
+	public GuestbookVo findByNo(long no) {
+		GuestbookVo result = null;
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+			conn = getConnection();
+			String sql = "select * from guestbook where no = ? order by reg_date desc";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setLong(1, no);
+			rs = pstmt.executeQuery();
+			
+			while (rs.next()) {
+				Long n = rs.getLong(1);
+				String name = rs.getString(2);
+				String password = rs.getString(3);
+				String message = rs.getString(4);
+				String regDate = rs.getString(5);
+				
+				GuestbookVo vo = new GuestbookVo();
+				vo.setNo(n);
+				vo.setName(name);
+				vo.setPassword(password);
+				vo.setMessage(message);
+				vo.setRegDate(regDate);
+
+				result = vo;
+			}
+			
+		} catch (Exception e) {
+			System.out.println("error:"+e);
+		} finally {
+			try {
+				if (rs!=null) {
+					rs.close();
+				}
+				if (pstmt != null) {
+					pstmt.close();
+				}
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return result;
+	}
+	
+	
 	public Connection getConnection() throws SQLException {
 		Connection conn = null;
 		try {
