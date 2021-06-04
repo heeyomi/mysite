@@ -29,7 +29,7 @@ public class GuestbookService {
 	public void deleteMessage(Long no, String password) {
 		GuestbookVo vo = guestbookRepository.findByNo(no);
 		if (password.equals(vo.getPassword())) {
-			guestbookRepository.delete(no, password);
+			guestbookRepository.delete(vo);
 		}
 	}
 	

@@ -3,7 +3,6 @@ package com.douzone.mysite.repository;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -24,77 +23,19 @@ public class GuestbookRepository {
 	private DataSource dataSource;
 	
 	public boolean insert(GuestbookVo vo) {
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		boolean result = false;
-
-		try {
-			conn = dataSource.getConnection();
-			String sql = "insert into guestbook values(null, ?,?,?,?)";
-			pstmt = conn.prepareStatement(sql);
-
-			pstmt.setString(1, vo.getName());
-			pstmt.setString(2, vo.getPassword());
-			pstmt.setString(3, vo.getMessage());
-			pstmt.setString(4, vo.getRegDate());
-
-			int count = pstmt.executeUpdate();
-			result = count == 1;
-
-		} catch (Exception e) {
-			throw new GuestbookRepositoryException(e.getMessage());
-		} finally {
-			try {
-				if (pstmt != null) {
-					pstmt.close();
-				}
-				if (conn != null) {
-					conn.close();
-				}
-			} catch (Exception e) {
-				throw new GuestbookRepositoryException(e.getMessage());
-			}
-		}
-		return result;
+		System.out.println(vo);
+		int count = sqlSession.insert("guestbook.insert", vo);
+		System.out.println(vo);
+		return count == 1;
 	}
-
 
 	public List<GuestbookVo> find() {
 		return sqlSession.selectList("guestbook.findAll");
 	}
 
-	public boolean delete(Long no, String pw) {
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		boolean result = false;
-
-		try {
-			conn = dataSource.getConnection();
-			String sql = "delete from guestbook where no = ? and password = ?";
-			pstmt = conn.prepareStatement(sql);
-
-			pstmt.setLong(1, no);
-			pstmt.setString(2, pw);
-
-			int count = pstmt.executeUpdate();
-			result = count == 1;
-
-		} catch (SQLException e) {
-			throw new GuestbookRepositoryException(e.getMessage());
-		} finally {
-			try {
-				if (pstmt != null) {
-					pstmt.close();
-				}
-				if (conn != null) {
-					conn.close();
-				}
-			} catch (Exception e) {
-				throw new GuestbookRepositoryException(e.getMessage());
-			}
-		}
-		return result;
-
+	public boolean delete(GuestbookVo vo) {
+		int count = sqlSession.delete("guestbook.delete", vo);
+		return count == 1;
 	}
 
 	public GuestbookVo findByNo(long no) {
