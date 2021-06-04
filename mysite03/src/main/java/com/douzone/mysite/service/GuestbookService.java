@@ -17,9 +17,6 @@ public class GuestbookService {
 
 	public List<GuestbookVo> getMessageList() {
 		List<GuestbookVo> list = guestbookRepository.find();
-		for (GuestbookVo guestbookVo : list) {
-			guestbookVo.setRegDate(guestbookVo.getRegDate().substring(0,19));
-		}
 		return list;
 	}
 	
