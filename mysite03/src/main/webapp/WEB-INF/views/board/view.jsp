@@ -34,12 +34,12 @@
 				</table>
 				<div class="bottom">
 					<a href="${pageContext.request.contextPath }/board">글목록</a>
-					<c:if test="${authUser.no == vo.userNo }">
-					<a href="${pageContext.request.contextPath }/board?a=modifyForm&no=${vo.no}">글수정</a>
+					<c:if test="${authUser.no == vo.userNo && !empty authUser }">
+						<a href="${pageContext.request.contextPath }/board/modify/${vo.no}">글수정</a>
 					</c:if>
 					<c:choose>
 					<c:when test="${!empty authUser }">
-						<a href="${pageContext.request.contextPath }/board?a=replyForm&no=${vo.no}" id="new-book">덧글쓰기</a>
+						<a href="${pageContext.request.contextPath }/board/reply/${vo.no}" id="new-book">덧글쓰기</a>
 					</c:when>
 				</c:choose>
 				</div>
