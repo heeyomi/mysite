@@ -1,6 +1,5 @@
 package com.douzone.mysite.vo;
 
-import java.sql.Timestamp;
 
 public class GuestbookVo {
 	private Long no;
