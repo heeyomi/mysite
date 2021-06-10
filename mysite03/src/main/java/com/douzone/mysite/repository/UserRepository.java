@@ -1,9 +1,5 @@
 package com.douzone.mysite.repository;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,47 +26,16 @@ public class UserRepository {
 		return sqlSession.selectOne("user.findByEmailAndPassword", map);		
 	}
 
-//	public boolean update(String name, String pw, Long no) {
-//		boolean result = false;
-//		Connection conn = null;
-//		PreparedStatement pstmt = null;
-//
-//		try {
-//			conn = getConnection();
-//			String sql = "update user set name=?, password=? where no =? ";
-//			pstmt = conn.prepareStatement(sql);
-//
-//			pstmt.setString(1, name);
-//			pstmt.setString(2, pw);
-//			pstmt.setLong(3, no);
-//
-//			int count = pstmt.executeUpdate();
-//			result = count == 1;
-//
-//		} catch (Exception e) {
-//			System.out.println("error:" + e);
-//		} finally {
-//			try {
-//				if (pstmt != null) {
-//					pstmt.close();
-//				}
-//				if (conn != null) {
-//					conn.close();
-//				}
-//			} catch (Exception e) {
-//				e.printStackTrace();
-//			}
-//		}
-//
-//		return result;
-//	}
-
 	public UserVo findByNo(Long userNo) {
 		return sqlSession.selectOne("user.findByNo", userNo);
 	}
 
 	public void update(UserVo userVo) {
 		sqlSession.update("user.update", userVo);
+	}
+
+	public UserVo findByEamil(String email) {
+		return sqlSession.selectOne("user.findByEmail", email);
 	}
 
 }
