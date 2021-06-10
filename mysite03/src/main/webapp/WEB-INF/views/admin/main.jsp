@@ -20,12 +20,14 @@
 						<input id="title" name="title" type="text" value="${siteVo.title }">
 						
 						<label class="block-label" for="welcomeMessage">환영 메세지</label>
-						<input id="welcomeMessage" name="welcomeMessage" type="text" value="${siteVo.welcomeMessage }">
+						<input id="welcomeMessage" name="welcome" type="text" value="${siteVo.welcome }">
 
 						<label class="block-label">프로필 이미지</label>
-						<img id="profile" src="${pageContext.request.contextPath }/${siteVo.profileURL }">
-						<input type="file" name="file1">
+						<img id="profile" src="${pageContext.request.contextPath }/${siteVo.profileURL }" style="width: 120px; height: 120px;">
 
+						<input type="file" name="file">
+						<br><br>
+	
 						<label class="block-label">사이트 설명</label>
 						<textarea name="description">${siteVo.description }</textarea>
 						
