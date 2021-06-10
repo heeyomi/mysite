@@ -13,12 +13,34 @@
 $(function() {
 	btn = $('#btn-check');
 	btn.click(function(){
-		$.ajax({
-			url:"/mysite03/user/api/checkemail?email=heeyomi@gmail.com",
-			type:"GET",
-			dataType:"json",
-			success : function(response) {
-				console.log(response);
+			var email = $('#email').val();
+			if (email == "") {
+				return ;
+			}
+			$.ajax({
+				url: "/mysite03/user/api/checkemail?email=" + email,
+				type:"GET",
+				dataType:"json",
+				error: function(xhr, status, e){
+					console.error(status, e);
+				},
+				success : function(response) {
+					console.log(response);
+					
+					if (response.result != "success") {
+						console.log(response.message);
+						return;
+					}
+				
+					if (response.data) {
+						alert("존재하는 이메일입니다. 다른 이메일을 사용하세요.");
+						$("#email").val();
+						$("#email").focus();
+						return ;
+					}
+				
+					$("#btn-check").hide();
+					$("#img-check").show();
 			}
 		});
 	});
@@ -38,6 +60,7 @@ $(function() {
 					<label class="block-label" for="email">이메일</label>
 					<input id="email" name="email" type="text" value="">
 					<input type="button" value="id 중복체크" id="btn-check">
+					<img id="img-check" src="${pageContext.request.contextPath }/assets/images/check.png" style="width:18px; vertical-align: bottom; display: none"/>
 					
 					<label class="block-label">패스워드</label>	
 					<input name="password" type="password" value="">
