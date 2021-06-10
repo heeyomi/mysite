@@ -30,11 +30,11 @@
 					<c:set var="count" value="${fn:length(list) }"/>				
 					<c:forEach begin="0" end="5" items="${list }" var="vo" varStatus="status">
 						<tr>
-						<c:if test="${count <5}">
-							<td>${status.index }</td>
+						<c:if test="${count < pages.limit}">
+							<td>${count-status.index }</td>
 						</c:if>
-						<c:if test="${count==5 }">
-							<td>${status.index+1 }</td>
+						<c:if test="${count == pages.limit }">
+							<td>${pages.totalBoard - (pages.currentPage-1)*pages.limit-status.index }</td>
 						</c:if>
 						<td style="text-align:left; padding-left:${vo.depth * 20}px">
 						<c:choose>
@@ -51,7 +51,7 @@
 						<td>${vo.regDate }</td>
 						<td>
 						<c:if test="${authUser.no == vo.userNo }">
-							<a href="${pageContext.request.contextPath }/board/delete/=${vo.no}" class="del" style='background-image: url("${pageContext.request.contextPath  }/assets/images/recycle.png")'>삭제</a>
+							<a href="${pageContext.request.contextPath }/board/delete/${vo.no}" class="del" style='background-image: url("${pageContext.request.contextPath  }/assets/images/recycle.png")'>삭제</a>
 						</c:if>
 						</td>
 						</tr>
@@ -63,15 +63,15 @@
 				<div class="pager">
 					<ul>
 					<c:if test="${pages.currentPage!=1 }">
-						<li><a href="${pageContext.request.contextPath }/board/${pages.prevPage }">◀</a></li>
-						<li><a href="${pageContext.request.contextPath }/board/${1 }">◀◀</a></li>
+						<li><a href="${pageContext.request.contextPath }/board?p=${1 }">◀◀</a></li>
+						<li><a href="${pageContext.request.contextPath }/board?p=${pages.prevPage }">◀</a></li>
 					</c:if>
 					<c:forEach var ="page" begin="${pages.startPage }" end="${pages.lastPage }" >
 							<c:if test="${page==pages.currentPage}">
 								<li class="selected">${page }</li>
 							</c:if>
 							<c:if test="${page <= pages.totalPage && page ne pages.currentPage }">
-								<li><a href="${pageContext.request.contextPath }/board/${page}">${page }</a></li>
+								<li><a href="${pageContext.request.contextPath }/board?p=${page}">${page }</a></li>
 							</c:if>
 							
 							<c:if
@@ -79,8 +79,8 @@
 					</c:forEach>
 					
 					<c:if test="${pages.currentPage <pages.totalPage }">
-						<li><a href="${pageContext.request.contextPath }/board/${pages.nextPage }">▶</a></li>
-						<li><a href="${pageContext.request.contextPath }/board/${pages.totalPage }">▶▶</a></li>
+						<li><a href="${pageContext.request.contextPath }/board?p=${pages.nextPage }">▶</a></li>
+						<li><a href="${pageContext.request.contextPath }/board?p=${pages.totalPage }">▶▶</a></li>
 					</c:if>
 					</ul>
 				</div>

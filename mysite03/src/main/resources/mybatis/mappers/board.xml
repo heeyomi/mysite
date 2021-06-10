@@ -14,8 +14,11 @@
 </insert>
 
 <select id="findAll" resultType="boardvo">
+	<![CDATA[
 	select a.no as no, a.title as title, a.contents as contents, a.reg_date as regDate, a.hit as hit, a.group_no as groupNo, a.order_no as orderNo, a.depth as depth, a.user_no as userNo, b.name as userName
 	from board a, user b where a.user_no = b.no
+	order by a.group_no desc, a.order_no asc
+	]]>
 </select>
 
 <select id="findMaxGroupNo" resultType="int">
@@ -32,14 +35,20 @@
 
 <select id="findByNo" resultType="boardvo" parameterType="long">
 <![CDATA[
-select a.no as no, a.title as title, a.contents as contents, a.reg_date as regDate, a.hit as hit, a.group_no as groupNo, a.order_no as orderNo, a.depth as depth, a.user_no as userNo, b.name as userName
+	select a.no as no, a.title as title, a.contents as contents, a.reg_date as regDate, a.hit as hit, a.group_no as groupNo, a.order_no as orderNo, a.depth as depth, a.user_no as userNo, b.name as userName
 	from board a, user b where a.user_no = b.no and a.no = #{no}
-	]]>
+]]>
 </select>
 
 <update id="updateBoard" parameterType="boardvo">
-<![CDATA[
-	update board set title = #{title}, contents=#{contents} where no = #{no}
+	<![CDATA[
+		update board set title = #{title}, contents=#{contents} where no = #{no}
+	]]>
+</update>
+
+<update id="updateNo" parameterType="boardvo">
+	<![CDATA[
+		update board set order_no = (order_no+1)  where group_no = #{groupNo} and order_no >= #{orderNo}
 	]]>
 </update>
 
@@ -61,5 +70,9 @@ select a.no as no, a.title as title, a.contents as contents, a.reg_date as regDa
 	]]>
 </select>
 
-
+<delete id="delete" parameterType="long">
+	<![CDATA[
+		delete from board where no = #{no}
+	]]>
+</delete>
 </mapper>

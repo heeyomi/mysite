@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.douzone.mysite.repository.BoardRepository;
 import com.douzone.mysite.vo.BoardVo;
+import com.douzone.mysite.vo.UserVo;
 
 @Service
 public class BoardService {
@@ -28,32 +29,63 @@ public class BoardService {
 		return boardRepository.findByNo(no);
 	}
 
-	public int update(BoardVo vo) {
-		return boardRepository.updateBoard(vo);
+	public int update(BoardVo vo, String no) {
+		BoardVo origin = boardRepository.findByNo(Long.parseLong(no));
+		origin.setContents(vo.getContents());
+		origin.setTitle(vo.getTitle());
+		return boardRepository.updateBoard(origin);
 	}
 
-	public int write(BoardVo vo) {
-		return boardRepository.insert(vo);
-	}
-
-	public int findMaxGroupNo() {
-		return boardRepository.findMaxGroupNo();
+	public int write(UserVo authUser, BoardVo vo) {
+		BoardVo newBoard = new BoardVo();
+		newBoard.setUserNo(authUser.getNo());
+		newBoard.setTitle(vo.getTitle());
+		newBoard.setContents(vo.getContents());
+		newBoard.setDepth(0);
+		newBoard.setHit(0);
+		newBoard.setOrderNo(1);
+		newBoard.setGroupNo(boardRepository.findMaxGroupNo()+1);
+		newBoard.setUserName(authUser.getName());
+		
+		return boardRepository.insert(newBoard);
 	}
 
 	public int updateHit(BoardVo vo) {
 		return boardRepository.updateHit(vo);
 
 	}
+	
+	public int insertReply(UserVo authUser, BoardVo vo, String no) {
+		
+		BoardVo reply = new BoardVo();
+		reply.setTitle(vo.getTitle());
+		reply.setContents(vo.getContents());
+		reply.setUserNo(authUser.getNo());
+		reply.setUserName(authUser.getName());
+		reply.setHit(0);
+		
+		BoardVo parent = boardRepository.findByNo(Long.parseLong(no));
+		reply.setDepth(parent.getDepth()+1);
+		reply.setGroupNo(parent.getGroupNo());
+		reply.setOrderNo(parent.getOrderNo()+1);
+		boardRepository.updateNo(reply);
+		
+		return boardRepository.insertReply(reply);
+	}
 
 	public List<BoardVo> paging(long page) {
-		return boardRepository.paging(page);
+		List<BoardVo> list = boardRepository.paging(page);
+		for (BoardVo boardVo : list) {
+			boardVo.setRegDate(boardVo.getRegDate().substring(0, 19));
+		}
+		return list;
 	}
 
 
-	public Map<String, Integer> pages(String page) {
+	public Map<String, Integer> pages(int page) {
 		int limit = 5;
 
-		int currentPage = Integer.parseInt(page);
+		int currentPage = page;
 		int totalPage = (boardRepository.countBoard()% limit) == 0? boardRepository.countBoard()/limit : boardRepository.countBoard()/limit+1;
 
 		int startPage = limit * ((int) Math.ceil((double)currentPage/limit)-1)+1;
@@ -63,16 +95,27 @@ public class BoardService {
 		int prevPage = currentPage-1 < 0 ? 1 : currentPage-1;
 		int lastPage = startPage + (limit-1) > totalPage ? totalPage : startPage + (limit-1);
 		int nextPage = currentPage + 1 > totalPage ? totalPage : currentPage+1;
+		int totalBoard = boardRepository.countBoard();
 		
-		int totalBoard =boardRepository.countBoard();
 		HashMap<String, Integer> pages = new HashMap<String, Integer>();
+		pages.put("limit", limit);
 		pages.put("currentPage", currentPage);
 		pages.put("startPage", startPage);
 		pages.put("totalPage", totalPage);
 		pages.put("lastPage", lastPage);
 		pages.put("prevPage", prevPage);
 		pages.put("nextPage", nextPage);
+		pages.put("totalBoard", totalBoard);
 		
 		return pages;
+	}
+
+	public int updateNo(BoardVo vo) {
+		return boardRepository.updateNo(vo);
+	}
+
+	public int delete(Long no) {
+		return boardRepository.delete(no);
+		
 	}
 }

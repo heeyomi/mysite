@@ -1,8 +1,5 @@
 package com.douzone.mysite.repository;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -13,7 +10,7 @@ import com.douzone.mysite.vo.BoardVo;
 
 @Repository
 public class BoardRepository {
-	
+
 	@Autowired
 	private SqlSession sqlSession;
 
@@ -22,7 +19,6 @@ public class BoardRepository {
 	}
 
 	public int insert(BoardVo vo) {
-		System.out.println(vo.toString());
 		return sqlSession.insert("board.insert", vo);
 	}
 
@@ -38,45 +34,21 @@ public class BoardRepository {
 		return sqlSession.update("board.updateBoard", vo);
 	}
 
-	public boolean delete(Long no) {
-		boolean result = false;
-		String sql = "delete from board where no = ?";
-		return result;
-	}
-
-
 	public int updateHit(BoardVo vo) {
 		return sqlSession.update("board.updateHit", vo);
 	}
 
-	public boolean insertReply(BoardVo vo) {
-		boolean result = false;
-
-		String sql = "insert into board values(null, ?, ?, ?, ?, ?, ?, ?, ?);";
-		return result;		
+	public int insertReply(BoardVo vo) {
+		return sqlSession.insert("board.insert", vo);		
 	}
 
-	public boolean updateReply(int groupNo, int orderNo) {
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		boolean result = false;
 
-		try {
-			String sql = "update board set order_no = (order_no+1)  where group_no = ? and order_no >=? ";
-			pstmt = conn.prepareStatement(sql);
+	public int delete(Long no) {
+		return sqlSession.delete("board.delete", no);
+	}
 
-
-			pstmt.setInt(1, groupNo);
-			pstmt.setInt(2, orderNo);
-
-			int count = pstmt.executeUpdate();
-
-			result = count == 1;
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return result;
+	public int updateNo(BoardVo vo) {
+		return sqlSession.update("board.updateNo", vo);
 	}
 
 	public int countBoard() {
