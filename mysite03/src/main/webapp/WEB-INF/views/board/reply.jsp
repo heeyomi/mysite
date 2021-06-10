@@ -14,8 +14,7 @@
 		<c:import url="/WEB-INF/views/includes/header.jsp" />
 		<div id="content">
 			<div id="board">
-				<form class="board-form" method="post" action="${pageContext.request.contextPath }/board">
-					<input type = "hidden" name = "a" value="reply">
+				<form class="board-form" method="post" action="${pageContext.request.contextPath }/board/reply/${boardVo.no}">
 					<input type="hidden" name="groupNo" value="${boardVo.groupNo }">
 					<input type="hidden" name="orderNo" value="${boardVo.orderNo }">
 					<input type="hidden" name="depth" value="${boardVo.depth }">
@@ -31,12 +30,12 @@
 						<tr>
 							<td class="label">내용</td>
 							<td>
-								<textarea id="content" name="content"></textarea>
+								<textarea id="content" name="contents"></textarea>
 							</td>
 						</tr>
 					</table>
 					<div class="bottom">
-						<a href="${pageContext.request.contextPath }/board?a=view&no=${boardVo.no}">취소</a>
+						<a href="${pageContext.request.contextPath }/board/view/${boardVo.no}">취소</a>
 						<input type="submit" value="등록">
 					</div>
 				</form>				
