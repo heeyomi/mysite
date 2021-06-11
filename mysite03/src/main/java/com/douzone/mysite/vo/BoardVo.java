@@ -1,7 +1,11 @@
 package com.douzone.mysite.vo;
 
+import javax.validation.constraints.NotEmpty;
+
 public class BoardVo {
 	private Long no;
+	
+	@NotEmpty
 	private String title;
 	private String contents;
 	private String regDate;

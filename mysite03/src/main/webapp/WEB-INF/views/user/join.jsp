@@ -67,19 +67,18 @@ $(function() {
 					</p>
 					
 					<label class="block-label" for="email">이메일</label>
-					<input id="email" name="email" type="text" value="">
+					<form:input path="email"/>
 					<input type="button" value="id 중복체크" id="btn-check">
 					<img id="img-check" src="${pageContext.request.contextPath }/assets/images/check.png" style="width:18px; vertical-align: bottom; display: none"/>
 					<p style="color:red; text-align: left; padding-left: 0px">
-					<spring:hasBindErrors name="userVo">
-						<c:if test="${errors.hasFieldErrors('email') }">
-        					<strong>${errors.getFieldError( 'email' ).defaultMessage }</strong>
-						</c:if>
-					</spring:hasBindErrors>
+						<form:errors path="email" />
 					</p>
 					
-					<label class="block-label">패스워드<spring:message code="user.join.label.password" /></label>	
-					<input name="password" type="password" value="">
+					<label class="block-label"><spring:message code="user.join.label.password" /></label>
+					<form:password path="password"/>
+					<p style="color:red; text-align: left; padding-left: 0px">
+						<form:errors path="password" />
+					</p>
 					
 					<fieldset>
 						<legend>성별</legend>
