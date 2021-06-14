@@ -38,6 +38,7 @@ public class BoardController {
 	@Auth
 	@RequestMapping(value="/write", method = RequestMethod.GET)
 	public String write() {
+		System.out.println("글쓰기~~~~~~~~~~~~~~~~~");
 		return "board/write";
 	}
 

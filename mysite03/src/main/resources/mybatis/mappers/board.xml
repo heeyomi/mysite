@@ -23,7 +23,7 @@
 
 <select id="findMaxGroupNo" resultType="int">
 	<![CDATA[
-		select max(group_no) from board
+		select ifnull(max(group_no),0) from board
 	]]>
 </select>
 

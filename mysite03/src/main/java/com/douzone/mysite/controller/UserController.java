@@ -30,15 +30,10 @@ public class UserController {
 	@RequestMapping(value="/join", method = RequestMethod.POST)
 	public String join(@Valid UserVo vo, BindingResult result, Model model) {
 		if (result.hasErrors()) {
-//			List<ObjectError> list = result.getAllErrors();
-//			for (ObjectError objectError : list) {
-//				System.out.println(objectError);
-//			}
 			model.addAllAttributes(result.getModel());
 			return "user/join";
 		}
-		
-		//userService.join(vo);
+		userService.join(vo);
 		return "redirect:/user/joinsuccess";
 	}
 
