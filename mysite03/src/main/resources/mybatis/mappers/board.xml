@@ -75,4 +75,20 @@
 		delete from board where no = #{no}
 	]]>
 </delete>
+
+<select id="findByKwd" resultType="boardvo" parameterType="map">
+	<![CDATA[
+		select a.no, a.title, a.contents, a.reg_date, a.hit, a.group_no, a.order_no, a.depth, a.user_no, b.name, b.email, b.password
+			from board a, user b
+		where a.user_no = b.no and
+	]]>
+	<choose>
+		<when test="kwd eq title">title</when>
+		<when test="kwd eq contents">contents</when>
+		<when test="kwd eq username">name</when>
+	</choose>
+	<![CDATA[
+		like '%${kwd }%
+	]]>
+</select>
 </mapper>

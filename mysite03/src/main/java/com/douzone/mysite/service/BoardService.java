@@ -118,4 +118,9 @@ public class BoardService {
 		return boardRepository.delete(no);
 		
 	}
+
+	public List<BoardVo> findByKwd(String kwd) {
+		return boardRepository.findByKwd(kwd);
+		
+	}
 }

@@ -100,4 +100,11 @@ public class BoardController {
 		}
 		return "redirect:/board/view";
 	}
+	
+	@RequestMapping(value="/search", method = RequestMethod.POST)
+	public String search(@RequestParam(value = "kwd", required = false, defaultValue = "") String kwd, Model model) {
+		List<BoardVo> list = boardService.findByKwd(kwd);
+		model.addAttribute("list", list);
+		return "board/index";
+	}
 }

@@ -1,6 +1,8 @@
 package com.douzone.mysite.repository;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,6 +59,15 @@ public class BoardRepository {
 
 	public int findMaxGroupNo() {
 		return sqlSession.selectOne("board.findMaxGroupNo");
+	}
+
+	public List<BoardVo> findByKwd(String kwd) {
+		Map<String, String> map = new HashMap<>();
+		map.put("title", kwd);
+		map.put("contents", kwd);
+		map.put("name", kwd);
+		
+		return sqlSession.selectList("board.findByKwd", map);
 	}
 
 
