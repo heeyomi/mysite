@@ -2,6 +2,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>  
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,7 +16,7 @@
 		<c:import url="/WEB-INF/views/includes/header.jsp" />
 		<div id="content">
 			<div id="board">
-				<form class="board-form" method="post" action="${pageContext.request.contextPath }/board/reply/${boardVo.no}">
+			<form:form modelAttribute="boardVo" class="board-from" metohd="post" action="${pageContext.request.contextPath }/board/reply/${boardVo.no}">
 					<input type="hidden" name="groupNo" value="${boardVo.groupNo }">
 					<input type="hidden" name="orderNo" value="${boardVo.orderNo }">
 					<input type="hidden" name="depth" value="${boardVo.depth }">
@@ -38,7 +40,8 @@
 						<a href="${pageContext.request.contextPath }/board/view/${boardVo.no}">취소</a>
 						<input type="submit" value="등록">
 					</div>
-				</form>				
+				</form>
+				</form:form>				
 			</div>
 		</div>
 		<c:import url="/WEB-INF/views/includes/navigation.jsp"/>
