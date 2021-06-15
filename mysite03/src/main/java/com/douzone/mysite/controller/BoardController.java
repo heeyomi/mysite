@@ -1,6 +1,5 @@
 package com.douzone.mysite.controller;
 
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -30,10 +29,10 @@ public class BoardController {
 	private BoardService boardService;
 
 	@RequestMapping({"","/{page}"})
-	public String index(@RequestParam(value = "p", required = true, defaultValue = "1" ) int page,  Model model) {
-		List<BoardVo> list = boardService.paging(page); 
-		model.addAttribute("list",list);
-		Map<String, Integer> pages = boardService.pages(page);
+	public String index(@RequestParam(value = "p", required = true, defaultValue = "1" ) int page,
+			@RequestParam(value="kwd", required = true, defaultValue = "") String keyword,
+			Model model) {
+		Map<String, Object> pages = boardService.getContentsList(page, keyword);
 		model.addAttribute("pages",pages);
 		return "board/index";
 	}
@@ -106,12 +105,5 @@ public class BoardController {
 			boardService.delete(Long.parseLong(no));
 		}
 		return "redirect:/board/view";
-	}
-	
-	@RequestMapping(value="/search", method = RequestMethod.POST)
-	public String search(@RequestParam(value = "kwd", required = false, defaultValue = "") String kwd, Model model) {
-		List<BoardVo> list = boardService.findByKwd(kwd);
-		model.addAttribute("list", list);
-		return "board/index";
 	}
 }

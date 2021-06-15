@@ -1,94 +1,103 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="board">
-
-<insert id="insert" parameterType="boardvo">
-	<![CDATA[
-		insert into board values(null, #{title}, #{contents}, now(), #{hit}, #{groupNo}, #{orderNo}, #{depth}, #{userNo})
-	]]>
-	<selectKey keyProperty="no" resultType="long" order="AFTER">
+	
+	<insert id="insert" parameterType="boardvo">
 		<![CDATA[
-			select last_insert_id()
+			insert into board values(null, #{title}, #{contents}, now(), #{hit}, #{groupNo}, #{orderNo}, #{depth}, #{userNo})
 		]]>
-	</selectKey>
-</insert>
-
-<select id="findAll" resultType="boardvo">
-	<![CDATA[
-	select a.no as no, a.title as title, a.contents as contents, a.reg_date as regDate, a.hit as hit, a.group_no as groupNo, a.order_no as orderNo, a.depth as depth, a.user_no as userNo, b.name as userName
-	from board a, user b where a.user_no = b.no
-	order by a.group_no desc, a.order_no asc
-	]]>
-</select>
-
-<select id="findMaxGroupNo" resultType="int">
-	<![CDATA[
-		select ifnull(max(group_no),0) from board
-	]]>
-</select>
-
-<select id="countBoard" resultType="int">
-	<![CDATA[
-		select count(*) from board
-	]]>
-</select>
-
-<select id="findByNo" resultType="boardvo" parameterType="long">
-<![CDATA[
-	select a.no as no, a.title as title, a.contents as contents, a.reg_date as regDate, a.hit as hit, a.group_no as groupNo, a.order_no as orderNo, a.depth as depth, a.user_no as userNo, b.name as userName
-	from board a, user b where a.user_no = b.no and a.no = #{no}
-]]>
-</select>
-
-<update id="updateBoard" parameterType="boardvo">
-	<![CDATA[
-		update board set title = #{title}, contents=#{contents} where no = #{no}
-	]]>
-</update>
-
-<update id="updateNo" parameterType="boardvo">
-	<![CDATA[
-		update board set order_no = (order_no+1)  where group_no = #{groupNo} and order_no >= #{orderNo}
-	]]>
-</update>
-
-
-<update id="updateHit" parameterType="boardvo">
-	<![CDATA[
-		update board set hit = #{hit}+1 where no = #{no}
-	]]>
-</update>
-
-<select id="paging" resultType="boardvo" parameterType="long">
-	<![CDATA[
-		select a.no as no, a.title as title, a.contents as contents, a.reg_date as regDate,
-			a.hit as hit, a.group_no as groupNo, a.order_no as orderNo, a.depth as depth,
-			a.user_no as userNo, b.name as userName
+		<selectKey keyProperty="no" resultType="long" order="AFTER">
+			<![CDATA[
+				select last_insert_id()
+			]]>
+		</selectKey>
+	</insert>
+	
+	<select id="findAll" resultType="boardvo">
+		<![CDATA[
+		select a.no as no, a.title as title, a.contents as contents, a.reg_date as regDate, a.hit as hit, a.group_no as groupNo, a.order_no as orderNo, a.depth as depth, a.user_no as userNo, b.name as userName
 		from board a, user b where a.user_no = b.no
-			order by a.group_no desc, a.order_no asc
-		limit #{n}, 5
-	]]>
-</select>
-
-<delete id="delete" parameterType="long">
+		order by a.group_no desc, a.order_no asc
+		]]>
+	</select>
+	
+	<select id="findMaxGroupNo" resultType="int">
+		<![CDATA[
+			select ifnull(max(group_no),0) from board
+		]]>
+	</select>
+	
+	<select id="countBoard" resultType="int">
+		<![CDATA[
+			select count(*) from board
+		]]>
+	</select>
+	
+	<select id="findByNo" resultType="boardvo" parameterType="long">
 	<![CDATA[
-		delete from board where no = #{no}
+		select a.no as no, a.title as title, a.contents as contents, a.reg_date as regDate, a.hit as hit, a.group_no as groupNo, a.order_no as orderNo, a.depth as depth, a.user_no as userNo, b.name as userName
+		from board a, user b where a.user_no = b.no and a.no = #{no}
 	]]>
-</delete>
-
-<select id="findByKwd" resultType="boardvo" parameterType="map">
-	<![CDATA[
-		select a.no, a.title, a.contents, a.reg_date, a.hit, a.group_no, a.order_no, a.depth, a.user_no, b.name, b.email, b.password
-			from board a, user b
-		where a.user_no = b.no and
-	]]>
-	<choose>
-		<when test="kwd eq title">title</when>
-		<when test="kwd eq contents">contents</when>
-		<when test="kwd eq username">name</when>
-	</choose>
-	<![CDATA[
-		like '%${kwd }%
-	]]>
-</select>
+	</select>
+	
+	<update id="updateBoard" parameterType="boardvo">
+		<![CDATA[
+			update board set title = #{title}, contents=#{contents} where no = #{no}
+		]]>
+	</update>
+	
+	<update id="updateNo" parameterType="boardvo">
+		<![CDATA[
+			update board set order_no = (order_no+1)  where group_no = #{groupNo} and order_no >= #{orderNo}
+		]]>
+	</update>
+	
+	
+	<update id="updateHit" parameterType="boardvo">
+		<![CDATA[
+			update board set hit = #{hit}+1 where no = #{no}
+		]]>
+	</update>
+	
+	<delete id="delete" parameterType="long">
+		<![CDATA[
+			delete from board where no = #{no}
+		]]>
+	</delete>
+	
+	<select id="findAllByPageAndKeyword" resultType="boardvo" parameterType="map">
+		<choose>
+			<when test="keyword == null || keyword == ''">
+				<![CDATA[
+					select a.no,
+						a.title,
+						a.hit,
+						a.reg_date as regDate,
+						a.depth,
+						b.name as userName,
+						a.user_no as userNo
+						from board a, user b
+						where a.user_no = b.no
+					order by group_no desc, order_no asc
+						limit #{page }, 5
+				]]>
+			</when>
+			<otherwise>
+				<![CDATA[
+				  select a.no,
+				  		 a.title,
+				  		 a.hit,
+				  		 a.reg_date as regDate,
+				  		 a.depth, 
+				  		 b.name as userName,
+				  		 a.user_no as userNo
+				  	from board a, user b
+				   where a.user_no = b.no
+				     and (a.title like '%${keyword }%' or a.contents like '%${keyword }%')
+				order by group_no desc, order_no asc
+				   limit #{page }, 5			
+				]]>		
+			</otherwise>
+		</choose>
+	</select>
 </mapper>

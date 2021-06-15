@@ -16,16 +16,15 @@ public class BoardRepository {
 	@Autowired
 	private SqlSession sqlSession;
 
-	public List<BoardVo> find() {
-		return sqlSession.selectList("board.findAll");
-	}
-
 	public int insert(BoardVo vo) {
 		return sqlSession.insert("board.insert", vo);
 	}
 
-	public List<BoardVo> paging(long page) {
-		return sqlSession.selectList("board.paging", (page-1)* 5);
+	public List<BoardVo> paging(long page, String keyword) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("page", page);
+		map.put("keyword", keyword);
+		return sqlSession.selectList("board.findAllByPageAndKeyword", map);
 	}
 
 	public BoardVo findByNo(Long no) {

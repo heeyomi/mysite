@@ -15,8 +15,8 @@
 		<c:import url="/WEB-INF/views/includes/header.jsp"/>
 		<div id="content">
 			<div id="board">
-				<form id="search_form" action="${pageContext.request.contextPath }/board/search" method="post">
-					<input type="text" id="kwd" name="kwd" value="">
+				<form id="search_form" action="${pageContext.request.contextPath }/board" method="get">
+					<input type="text" id="kwd" name="kwd" value="${keyword }">
 					<input type="submit" value="찾기">
 				</form>
 				<table class="tbl-ex">
@@ -28,8 +28,8 @@
 						<th>작성일</th>
 						<th>&nbsp;</th>
 					</tr>
-					<c:set var="count" value="${fn:length(list) }"/>				
-					<c:forEach begin="0" end="5" items="${list }" var="vo" varStatus="status">
+					<c:set var="count" value="${fn:length(pages.list) }"/>				
+					<c:forEach begin="0" end="5" items="${pages.list }" var="vo" varStatus="status">
 						<tr>
 						<c:if test="${count < pages.limit}">
 							<td>${count-status.index }</td>

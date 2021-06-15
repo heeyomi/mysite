@@ -17,14 +17,6 @@ public class BoardService {
 	@Autowired
 	private BoardRepository boardRepository;
 
-	public List<BoardVo> getBoardList() {
-		List<BoardVo> list = boardRepository.find();
-		for (BoardVo boardVo : list) {
-			boardVo.setRegDate(boardVo.getRegDate().substring(0, 19));
-		}
-		return list;
-	}
-
 	public BoardVo findByNo(long no) {
 		return boardRepository.findByNo(no);
 	}
@@ -73,16 +65,7 @@ public class BoardService {
 		return boardRepository.insertReply(reply);
 	}
 
-	public List<BoardVo> paging(long page) {
-		List<BoardVo> list = boardRepository.paging(page);
-		for (BoardVo boardVo : list) {
-			boardVo.setRegDate(boardVo.getRegDate().substring(0, 19));
-		}
-		return list;
-	}
-
-
-	public Map<String, Integer> pages(int page) {
+	public Map<String, Object> getContentsList(int page, String keyword) {
 		int limit = 5;
 
 		int currentPage = page;
@@ -96,8 +79,12 @@ public class BoardService {
 		int lastPage = startPage + (limit-1) > totalPage ? totalPage : startPage + (limit-1);
 		int nextPage = currentPage + 1 > totalPage ? totalPage : currentPage+1;
 		int totalBoard = boardRepository.countBoard();
+		List<BoardVo> list = boardRepository.paging((page-1) * 5, keyword);
+		for (BoardVo boardVo : list) {
+			boardVo.setRegDate(boardVo.getRegDate().substring(0, 19));
+		}
 		
-		HashMap<String, Integer> pages = new HashMap<String, Integer>();
+		HashMap<String, Object> pages = new HashMap<String, Object>();
 		pages.put("limit", limit);
 		pages.put("currentPage", currentPage);
 		pages.put("startPage", startPage);
@@ -106,6 +93,8 @@ public class BoardService {
 		pages.put("prevPage", prevPage);
 		pages.put("nextPage", nextPage);
 		pages.put("totalBoard", totalBoard);
+		pages.put("keyword", keyword);
+		pages.put("list", list);
 		
 		return pages;
 	}
