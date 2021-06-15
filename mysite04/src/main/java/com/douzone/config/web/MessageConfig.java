@@ -12,10 +12,8 @@ public class MessageConfig {
 	public MessageSource messageSource() {
 		ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
 		messageSource.setBasename("com/douzone/mysite/config/web/messages_ko");
-		messageSource.setDefaultEncoding("UTF-8");
+		messageSource.setDefaultEncoding("utf-8");
 		
-		return messageSource();
+		return messageSource;
 	}
-	
-	
 }

@@ -21,10 +21,9 @@ import org.springframework.web.servlet.view.JstlView;
 
 @Configuration
 @EnableWebMvc
-public class MvcConfig extends WebMvcConfigurerAdapter{
+public class MvcConfig extends WebMvcConfigurerAdapter {
 	
-
-	//view Resolver
+	// View Resolver
 	@Bean
 	public ViewResolver viewResolver() {
 		InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
@@ -33,23 +32,34 @@ public class MvcConfig extends WebMvcConfigurerAdapter{
 		viewResolver.setSuffix(".jsp");
 		viewResolver.setExposeContextBeansAsAttributes(true);
 		
-		return viewResolver();
+		return viewResolver;
 	}
 	
-	//message Converters
+	// Message Converters
 	@Bean
-	public StringHttpMessageConverter stringHttpMessageConverter(){
-		StringHttpMessageConverter messageConverter = new StringHttpMessageConverter();
-		messageConverter.setSupportedMediaTypes(Arrays.asList(new MediaType("text", "html", Charset.forName("UTF-8"))));
+	public StringHttpMessageConverter stringHttpMessageConverter() {
+		StringHttpMessageConverter messageConverter = new StringHttpMessageConverter();  
+		messageConverter.setSupportedMediaTypes(
+			Arrays.asList(
+				new MediaType("text", "html", Charset.forName("utf-8"))
+			)
+		);
 		return messageConverter;
 	}
 	
 	@Bean
 	public MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter() {
-		Jackson2ObjectMapperBuilder builder = new Jackson2ObjectMapperBuilder().indentOutput(true).dateFormat(new SimpleDateFormat("yyyy-mm-dd"));
+		Jackson2ObjectMapperBuilder builder = new Jackson2ObjectMapperBuilder()
+			.indentOutput(true)
+			.dateFormat(new SimpleDateFormat("yyyy-mm-dd"));
 		
-		MappingJackson2HttpMessageConverter messageConverter = new MappingJackson2HttpMessageConverter(builder.build());
-		messageConverter.setSupportedMediaTypes(Arrays.asList(new MediaType("application", "json", Charset.forName("UTF-8"))));
+		MappingJackson2HttpMessageConverter messageConverter
+			= new MappingJackson2HttpMessageConverter(builder.build());
+		messageConverter.setSupportedMediaTypes(
+			Arrays.asList(
+				new MediaType("application", "json", Charset.forName("utf-8"))	
+			)
+		);
 		return messageConverter;
 	}
 
@@ -64,6 +74,4 @@ public class MvcConfig extends WebMvcConfigurerAdapter{
 	public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
 		configurer.enable();
 	}
-	
-	
 }
