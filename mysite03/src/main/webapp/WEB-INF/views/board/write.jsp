@@ -16,19 +16,25 @@
 		<c:import url="/WEB-INF/views/includes/header.jsp" />
 		<div id="content">
 			<div id="board">
-				<form class="board-form" method="post" action="${pageContext.request.contextPath }/board/write">
+				<form:form modelAttribute="boardVo" class="board-form" method="post" action="${pageContext.request.contextPath }/board/write">
 					<table class="tbl-ex">
 						<tr>
 							<th colspan="2">글쓰기</th>
 						</tr>
 						<tr>
-							<td class="label">제목</td>
-							<td><form:input path="title"/> </td>
+								<td class="label">제목</td>
+								<td><form:input path="title"/>
+								<p style="color:red; text-align: left; padding-left: 0px">
+									<form:errors path="title" />
+								</p>
 						</tr>
 						<tr>
 							<td class="label">내용</td>
 							<td>
-								<textarea id="content" name="contents"></textarea>
+							<form:textarea path="contents"/>
+							<p style="color:red; text-align: left; padding-left: 0px">
+								<form:errors name="content" path="contents" />
+							</p>
 							</td>
 						</tr>
 					</table>
@@ -36,7 +42,7 @@
 						<a href="${pageContext.request.contextPath }/board">취소</a>
 						<input type="submit" value="등록">
 					</div>
-				</form>				
+				</form:form>
 			</div>
 		</div>
 		<c:import url="/WEB-INF/views/includes/navigation.jsp"/>

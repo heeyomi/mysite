@@ -7,6 +7,8 @@ public class BoardVo {
 	
 	@NotEmpty
 	private String title;
+	
+	@NotEmpty
 	private String contents;
 	private String regDate;
 	private int hit;

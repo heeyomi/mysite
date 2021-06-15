@@ -56,7 +56,7 @@ $(function() {
 			<div id="user">
 				<form:form modelAttribute="userVo" id="join-form" name="joinForm" method="post" action="${pageContext.request.contextPath }/user/join">
 					<label class="block-label" for="name">이름</label>
-						<form:input path="name"/>
+					<form:input path="name"/>
 					
 					<p style="color:red; text-align: left; padding-left: 0px">
 					<spring:hasBindErrors name="userVo">
@@ -74,9 +74,10 @@ $(function() {
 						<form:errors path="email"/>
 					</p>
 					
-					<label class="block-label">패스워드<spring:message code="user.join.label.password" /></label>	
+					<label class="block-label"><spring:message code="user.join.label.password" /></label>
 					<form:password path="password"/>
 					<p style="color:red; text-align: left; padding-left: 0px">
+						<form:errors path="password" />
 					</p>
 					
 					<label class="block-label">	성별</label>

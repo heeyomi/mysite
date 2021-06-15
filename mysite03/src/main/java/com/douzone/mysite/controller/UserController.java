@@ -28,7 +28,7 @@ public class UserController {
 	}
 
 	@RequestMapping(value="/join", method = RequestMethod.POST)
-	public String join(@Valid UserVo vo, BindingResult result, Model model) {
+	public String join(@ModelAttribute @Valid UserVo vo, BindingResult result, Model model) {
 		if (result.hasErrors()) {
 			model.addAllAttributes(result.getModel());
 			return "user/join";
@@ -50,7 +50,6 @@ public class UserController {
 	@Auth
 	@RequestMapping(value="/update", method = RequestMethod.GET)
 	public String update(@AuthUser UserVo authUser, Model model) {
-
 		UserVo userVo = userService.getUser(authUser.getNo());
 		model.addAttribute("userVo", userVo);
 		return "user/update";
