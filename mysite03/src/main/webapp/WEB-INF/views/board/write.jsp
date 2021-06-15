@@ -31,7 +31,7 @@
 						<tr>
 							<td class="label">내용</td>
 							<td>
-							<form:textarea path="contents"/>
+							<form:textarea id="content" path="contents"/>
 							<p style="color:red; text-align: left; padding-left: 0px">
 								<form:errors name="content" path="contents" />
 							</p>
