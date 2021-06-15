@@ -3,7 +3,7 @@
 <mapper namespace="gallery">
 	<select id="findAll" resultType="galleryvo">
 		<![CDATA[
-			select * from gallery
+			select * from gallery order by no desc
 		]]>
 	</select>
 	
