@@ -21,15 +21,19 @@ public class GuestbookService {
 		return list;
 	}
 	
+	public List<GuestbookVo> getMessageList(Long no /* no 기준*/){
+		return guestbookRepository.find(no);
+	}
+	
 	public void addMessage(GuestbookVo vo) {
 		guestbookRepository.insert(vo);
 	}
 
-	public void deleteMessage(Long no, String password) {
+	public boolean deleteMessage(Long no, String password) {
 		GuestbookVo vo = new GuestbookVo();
 		vo.setNo(no);
 		vo.setPassword(password);
-		guestbookRepository.delete(vo);
+		return guestbookRepository.delete(vo);
 	}
 	
 }

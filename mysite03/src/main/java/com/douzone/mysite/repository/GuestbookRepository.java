@@ -30,6 +30,10 @@ public class GuestbookRepository {
 		return count == 1;
 	}
 
+	public List<GuestbookVo> find(Long no) {
+		return sqlSession.selectList("guestbook.findAllByNo", no);
+	}
+
 //	public GuestbookVo findByNo(long no) {
 //		GuestbookVo result = null;
 //		Connection conn = null;

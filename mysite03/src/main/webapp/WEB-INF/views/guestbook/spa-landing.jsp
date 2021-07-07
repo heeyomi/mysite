@@ -11,6 +11,34 @@
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script type="text/javascript" src="${pageContext.request.contextPath }/assets/js/jquery/jquery-1.9.0.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+<script>
+/**  Guestbook application based on jQuery */
+/**
+ * 과제 ex01) 리스트
+ * - no 기준의 리스트를 부분적(3개나 5개씩) 가져와서 리스트 렌더링
+ * - 버튼 이벤트 구현 => 스크롤 이벤트 바꾼다.
+ * - no 기준으로 동적 쿼리를 레포지토리에 구현한다.
+ * 렌더링 참고 : ch08/test/gb/ex1
+ *
+ * 과제 ex02) 메세지 등록(add)
+ * - validation
+ * - message dialog plugin 사용법
+ * - form submit 막기
+ * - 데이터 하나를 렌더링
+ * 참고 : ch08/test/gb/ex2
+ *
+ * 과제 ex03) 메세지 삭제(delete)
+ * - a 태그 기본 동작 막기
+ * - live event
+ * - form 기반 dialog plugin 사용법
+ * - 응답에 대해 해당 li 삭제
+ * - 비밀번호가 틀린 경우(삭제 실패, no=0), 사용자에게 알려주는 UI
+ * - 삭제에 성공한 경우(no>0), data-no = 10인 li element를 삭제
+ * 참고 : ch08/test/gb/ex3
+ */
+</script>
+
 </head>
 <body>
 	<div id="container">
@@ -58,6 +86,9 @@
 					
 									
 				</ul>
+				<div style="margin:20px 0 0 0">
+					<button id="btn-fetch">다음 가져오기</button>
+				</div>
 			</div>
 			<div id="dialog-delete-form" title="메세지 삭제" style="display:none">
   				<p class="validateTips normal">작성시 입력했던 비밀번호를 입력하세요.</p>
