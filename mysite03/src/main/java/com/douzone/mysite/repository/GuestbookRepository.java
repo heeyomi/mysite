@@ -15,9 +15,7 @@ public class GuestbookRepository {
 	private SqlSession sqlSession;
 	
 	public boolean insert(GuestbookVo vo) {
-		System.out.println(vo);
 		int count = sqlSession.insert("guestbook.insert", vo);
-		System.out.println(vo);
 		return count == 1;
 	}
 
@@ -33,58 +31,4 @@ public class GuestbookRepository {
 	public List<GuestbookVo> find(Long no) {
 		return sqlSession.selectList("guestbook.findAllByNo", no);
 	}
-
-//	public GuestbookVo findByNo(long no) {
-//		GuestbookVo result = null;
-//		Connection conn = null;
-//		PreparedStatement pstmt = null;
-//		ResultSet rs = null;
-//
-//		try {
-//			conn = dataSource.getConnection();
-//			String sql = "select * from guestbook where no = ? order by reg_date desc";
-//			pstmt = conn.prepareStatement(sql);
-//			pstmt.setLong(1, no);
-//			rs = pstmt.executeQuery();
-//
-//			while (rs.next()) {
-//				Long n = rs.getLong(1);
-//				String name = rs.getString(2);
-//				String password = rs.getString(3);
-//				String message = rs.getString(4);
-//				String regDate = rs.getString(5);
-//
-//				GuestbookVo vo = new GuestbookVo();
-//				vo.setNo(n);
-//				vo.setName(name);
-//				vo.setPassword(password);
-//				vo.setMessage(message);
-//				vo.setRegDate(regDate);
-//
-//				result = vo;
-//			}
-//
-//		} catch (Exception e) {
-//			throw new GuestbookRepositoryException(e.getMessage());
-//		} finally {
-//			try {
-//				if (rs!=null) {
-//					rs.close();
-//				}
-//				if (pstmt != null) {
-//					pstmt.close();
-//				}
-//				if (conn != null) {
-//					conn.close();
-//				}
-//			} catch (Exception e) {
-//				throw new GuestbookRepositoryException(e.getMessage());
-//			}
-//		}
-//
-//		return result;
-//	}
-
-
-
 }

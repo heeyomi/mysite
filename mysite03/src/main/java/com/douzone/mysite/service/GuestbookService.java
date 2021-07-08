@@ -25,8 +25,8 @@ public class GuestbookService {
 		return guestbookRepository.find(no);
 	}
 	
-	public void addMessage(GuestbookVo vo) {
-		guestbookRepository.insert(vo);
+	public boolean addMessage(GuestbookVo vo) {
+		return guestbookRepository.insert(vo);
 	}
 
 	public boolean deleteMessage(Long no, String password) {

@@ -13,6 +13,22 @@
 			select * from guestbook order by reg_date desc
 		]]>
 	</select>
+	
+	<select id="findAllByNo" resultMap="guestbookvo" resultType="guestbookvo" parameterType="long">
+		<![CDATA[
+			select * from guestbook 
+		]]>
+		<choose>
+			<when test="value != -1">
+				<![CDATA[
+				 where no < #{value}
+				]]>		
+			</when>
+		</choose>
+		<![CDATA[
+			order by reg_date desc limit 0, 3;
+		]]>
+	</select>
 
 	<insert id="insert" parameterType="guestbookvo">
 		<![CDATA[
